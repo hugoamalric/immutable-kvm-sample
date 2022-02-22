@@ -1,0 +1,34 @@
+- name: Install Java 11
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+        - openjdk-11-jdk
+
+- name: Copying jar service file
+  become: true 
+  copy:
+    src: /tmp/prometheus_metric_generator.jar
+    dest: /opt/prometheus_metric_generator.jar
+    remote_src: yes
+    owner: root
+    group: root        
+    mode: 0744
+
+- name: Copying java service file
+  become: true 
+  copy:
+    src: /tmp/prometheus_metric_generator.service
+    dest: /etc/systemd/system/prometheus_metric_generator.service
+    remote_src: yes
+    owner: root
+    group: root        
+    mode: 0744
+
+- name: Start the java service
+  ansible.builtin.systemd:
+    name: prometheus_metric_generator
+    state: started
+    enabled: yes

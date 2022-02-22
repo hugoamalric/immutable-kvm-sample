@@ -77,6 +77,16 @@ EOF
     ]
   }
 
+  provisioner "file" {
+    source      = "app/prometheus_metric_generator.jar"
+    destination = "/tmp/prometheus_metric_generator.jar"
+  }
+
+  provisioner "file" {
+    source      = "app/prometheus_metric_generator.service"
+    destination = "/tmp/prometheus_metric_generator.service"
+  }
+
 
   provisioner "ansible-local" {
     playbook_file = "ansible/playbook.yml"
