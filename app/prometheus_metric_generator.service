@@ -1,0 +1,13 @@
+[Unit]
+Description=My prometheus metric generator service
+After=network-online.target
+
+[Service]
+Type=simple
+
+WorkingDirectory=/opt
+ExecStart=/usr/bin/java -jar prometheus_metric_generator.jar
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
